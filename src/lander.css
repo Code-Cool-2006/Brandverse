@@ -1,0 +1,57 @@
+/* From Uiverse.io by reglobby */
+.user-profile {
+  width: 170px;
+  height: 38px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s ease;
+  background: linear-gradient(
+    to bottom right,
+    #2e8eff 0%,
+    rgba(46, 142, 255, 0) 30%
+  );
+  background-color: rgba(46, 142, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: white;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  user-select: none;
+  gap: 8px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-profile:hover,
+.user-profile:focus {
+  background-color: rgba(46, 142, 255, 0.7);
+  box-shadow: 0 0 10px rgba(46, 142, 255, 0.5);
+  outline: none;
+}
+
+.user-profile-inner {
+  height: 100%;
+  border-radius: 13px;
+  background-color: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  font-weight: 600;
+  padding: 0 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.user-profile-inner svg {
+  width: 35px;
+  height: 35px;
+  fill: #fff;
+}
