@@ -1,4 +1,40 @@
 /* From Uiverse.io by reglobby */
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+button {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1rem;
+}
+
+button:hover {
+  background-color: #0056b3;
+  color: white;
+}
+
+.navbar-brand {
+  width: 100%;
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  box-shadow: rgba(0, 0, 0, 0.1);
+  color: white !important;
+  font-weight: 600;
+  padding: 10px 10px;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 24px;
+  user-select: none;
+  text-decoration: none !important;
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease;
+}
 .user-profile {
   width: 170px;
   height: 38px;
@@ -7,8 +43,9 @@
   transition: 0.3s ease;
   background: linear-gradient(
     to bottom right,
-    #2e8eff 0%,
-    rgba(46, 142, 255, 0) 30%
+    #2e8eff,
+    rgba(223, 143, 23, 0),
+    #2e8eff
   );
   background-color: rgba(46, 142, 255, 0.2);
   display: flex;
@@ -46,7 +83,7 @@
   color: #fff;
   font-weight: 600;
   padding: 0 10px;
-  width: 100%;
+  width: 120%;
   box-sizing: border-box;
 }
 
