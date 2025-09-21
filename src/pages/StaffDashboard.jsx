@@ -412,6 +412,315 @@ const StaffDashboard = () => {
           </div>
         );
 
+      case "grocery":
+        return <Grocery />;
+
+      case "management":
+        return (
+          <div className="management-section">
+            <h2>Management</h2>
+
+            {/* Sub-tabs for Customers and Restaurants */}
+            <div className="management-sub-tabs">
+              <button
+                className={managementSubTab === "customers" ? "active" : ""}
+                onClick={() => setManagementSubTab("customers")}
+              >
+                Customers
+              </button>
+              <button
+                className={managementSubTab === "restaurants" ? "active" : ""}
+                onClick={() => setManagementSubTab("restaurants")}
+              >
+                Restaurants
+              </button>
+            </div>
+
+            {managementSubTab === "customers" && (
+              <div className="management-grid">
+                <div className="management-card">
+                  <h3>Customer Support</h3>
+                  <p>Handle customer inquiries and issues</p>
+                  <button className="manage-btn">Support Center</button>
+                </div>
+                <div className="management-card">
+                  <h3>Customer Database</h3>
+                  <p>View and manage customer information</p>
+                  <button className="manage-btn">View Database</button>
+                </div>
+                <div className="management-card">
+                  <h3>Feedback & Reviews</h3>
+                  <p>Monitor customer feedback</p>
+                  <button className="manage-btn">View Reviews</button>
+                </div>
+                <div className="management-card">
+                  <h3>Loyalty Program</h3>
+                  <p>Manage customer rewards</p>
+                  <button className="manage-btn">Manage Program</button>
+                </div>
+              </div>
+            )}
+
+            {managementSubTab === "restaurants" && (
+              <div className="management-grid restaurants-grid">
+                <div
+                  className="management-card"
+                  style={{ gridColumn: "1 / -1" }}
+                >
+                  <h3>Add New Restaurant</h3>
+                  <p>Onboard new restaurant partners</p>
+                  {error && <div className="error-banner">{error}</div>}
+                  <form
+                    className="restaurant-form"
+                    onSubmit={handleCreateRestaurant}
+                  >
+                    <div className="form-row">
+                      <label>Name</label>
+                      <input
+                        type="text"
+                        value={form.name}
+                        onChange={(e) =>
+                          setForm({ ...form, name: e.target.value })
+                        }
+                        placeholder="e.g., Healthy Haven"
+                        required
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>Type</label>
+                      <select
+                        value={form.type}
+                        onChange={(e) =>
+                          setForm({ ...form, type: e.target.value })
+                        }
+                      >
+                        <option value="restaurant">Restaurant</option>
+                        <option value="cafe">Cafe</option>
+                      </select>
+                    </div>
+                    <div className="form-row">
+                      <label>Category</label>
+                      <input
+                        type="text"
+                        value={form.category}
+                        onChange={(e) =>
+                          setForm({ ...form, category: e.target.value })
+                        }
+                        placeholder="veg | non-veg | multi | indian"
+                      />
+                    </div>
+                    <div className="form-row">
+                      <label>Image URL</label>
+                      <input
+                        type="url"
+                        value={form.image}
+                        onChange={(e) =>
+                          setForm({ ...form, image: e.target.value })
+                        }
+                        placeholder="https://..."
+                      />
+                    </div>
+                    <button
+                      className="manage-btn"
+                      type="submit"
+                      disabled={creating}
+                    >
+                      {creating ? "Adding..." : "Add Restaurant"}
+                    </button>
+                  </form>
+                </div>
+
+                <div
+                  className="management-card"
+                  style={{ gridColumn: "1 / -1" }}
+                >
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <h3>Partner Restaurants ({restaurants.length})</h3>
+                    <button
+                      className="manage-btn"
+                      style={{ maxWidth: 140 }}
+                      onClick={fetchRestaurants}
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                  <p>Manage restaurant partnerships</p>
+                  <div className="restaurants-list">
+                    {restaurants.map((r) => (
+                      <div
+                        key={r.id}
+                        className={`restaurant-row ${
+                          selectedRestaurantId === r.id ? "selected" : ""
+                        }`}
+                        onClick={() => handleSelectRestaurant(r.id)}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <img
+                          src={
+                            r.image ||
+                            "https://via.placeholder.com/60x40?text=Img"
+                          }
+                          alt={r.name}
+                        />
+                        <div className="restaurant-info">
+                          <div className="restaurant-name">{r.name}</div>
+                          <div className="restaurant-meta">
+                            {r.type} • {r.category}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {restaurants.length === 0 && (
+                      <div>No restaurants yet. Add your first one above.</div>
+                    )}
+                  </div>
+                </div>
+
+                {selectedRestaurantId && (
+                  <div
+                    className="management-card"
+                    style={{ gridColumn: "1 / -1" }}
+                  >
+                    <h3>Manage Dishes</h3>
+                    <p style={{ fontWeight: 600 }}>
+                      Selected:{" "}
+                      {restaurants.find((r) => r.id === selectedRestaurantId)
+                        ?.name ||
+                        selectedRestaurantName ||
+                        (selectedRestaurantId
+                          ? `#${selectedRestaurantId}`
+                          : "None")}
+                    </p>
+                    <p>Add dishes for the selected restaurant</p>
+                    {error && <div className="error-banner">{error}</div>}
+                    <form
+                      className="restaurant-form"
+                      onSubmit={handleCreateDish}
+                    >
+                      <div className="form-row">
+                        <label>Dish Name</label>
+                        <input
+                          type="text"
+                          value={dishForm.name}
+                          onChange={(e) =>
+                            setDishForm({ ...dishForm, name: e.target.value })
+                          }
+                          required
+                        />
+                      </div>
+                      <div className="form-row">
+                        <label>Price</label>
+                        <input
+                          type="number"
+                          step="0.01"
+                          value={dishForm.price}
+                          onChange={(e) =>
+                            setDishForm({ ...dishForm, price: e.target.value })
+                          }
+                          required
+                        />
+                      </div>
+                      <div className="form-row">
+                        <label>Image URL</label>
+                        <input
+                          type="url"
+                          value={dishForm.image}
+                          onChange={(e) =>
+                            setDishForm({ ...dishForm, image: e.target.value })
+                          }
+                          placeholder="https://..."
+                        />
+                      </div>
+                      <div className="form-row">
+                        <label>Category</label>
+                        <input
+                          type="text"
+                          value={dishForm.category}
+                          onChange={(e) =>
+                            setDishForm({
+                              ...dishForm,
+                              category: e.target.value,
+                            })
+                          }
+                          placeholder="veg | non-veg | multi"
+                        />
+                      </div>
+                      <div
+                        className="form-row"
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "10px",
+                        }}
+                      >
+                        <input
+                          id="diabeticFriendly"
+                          type="checkbox"
+                          checked={dishForm.diabeticFriendly}
+                          onChange={(e) =>
+                            setDishForm({
+                              ...dishForm,
+                              diabeticFriendly: e.target.checked,
+                            })
+                          }
+                        />
+                        <label htmlFor="diabeticFriendly">
+                          Diabetes-friendly
+                        </label>
+                      </div>
+                      <button
+                        className="manage-btn"
+                        type="submit"
+                        disabled={creatingDish}
+                      >
+                        {creatingDish ? "Adding..." : "Add Dish"}
+                      </button>
+                    </form>
+
+                    <h4 style={{ marginTop: "20px" }}>Existing Dishes</h4>
+                    <div className="restaurants-list">
+                      {(dishesByRestaurant[selectedRestaurantId] || []).map(
+                        (d) => (
+                          <div key={d.id} className="restaurant-row">
+                            <img
+                              src={
+                                d.image ||
+                                "https://via.placeholder.com/60x40?text=Img"
+                              }
+                              alt={d.name}
+                            />
+                            <div className="restaurant-info">
+                              <div className="restaurant-name">
+                                {d.name} - ${d.price.toFixed(2)}
+                              </div>
+                              <div className="restaurant-meta">
+                                {d.category}
+                                {d.diabeticFriendly
+                                  ? " • diabetes-friendly"
+                                  : ""}
+                              </div>
+                            </div>
+                          </div>
+                        )
+                      )}
+                      {(dishesByRestaurant[selectedRestaurantId] || [])
+                        .length === 0 && <div>No dishes yet.</div>}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        );
+
+      default:
+        return null;
       case "management":
         return (
           <div className="management-section">
