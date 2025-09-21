@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "/.Grocery.css";
+import "./Grocery.css";
 
 // --- Comprehensive Dummy Data for Groceries ---
 const groceryData = {
