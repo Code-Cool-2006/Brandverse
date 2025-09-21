@@ -1,0 +1,219 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-red: #ef4444;
+  --primary-red-dark: #dc2626;
+  --text-dark: #1f2937;
+  --text-light: #6b7280;
+  --bg-light: #f9fafb;
+  --border-color: #e5e7eb;
+}
+
+.grocery-container {
+  display: flex;
+  font-family: "Poppins", sans-serif;
+  background-color: #fff;
+  min-height: 100vh;
+}
+
+/* --- Sidebar --- */
+.category-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background-color: var(--bg-light);
+  padding: 1.5rem;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+}
+.sidebar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 1.5rem;
+}
+.category-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.category-link {
+  display: block;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--text-light);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.category-link:hover {
+  background-color: var(--border-color);
+  color: var(--text-dark);
+}
+.category-link.active {
+  background-color: var(--primary-red);
+  color: white;
+  font-weight: 600;
+}
+
+/* --- Main Content --- */
+.product-main {
+  flex-grow: 1;
+  padding: 2rem 3rem 8rem; /* Add padding at bottom for summary bar */
+  overflow-y: auto;
+}
+.grocery-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--primary-red-dark);
+}
+.grocery-header p {
+  color: var(--text-light);
+  margin-top: -5px;
+}
+.marketing-banner {
+  background: linear-gradient(to right, #fecaca, #fca5a5);
+  color: var(--primary-red-dark);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 2rem 0;
+}
+.marketing-banner h2 {
+  font-weight: 600;
+  font-size: 1.2rem;
+}
+
+/* --- Product Grid --- */
+.category-title {
+  font-size: 1.75rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 2.5rem 0 1.5rem 0;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.5rem;
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+}
+.product-card {
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1rem;
+  text-align: left;
+  position: relative;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.product-card:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  transform: translateY(-5px);
+}
+.product-image-container {
+  height: 140px;
+  margin-bottom: 1rem;
+}
+.product-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.product-price {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+.product-name {
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  margin: 0.25rem 0;
+  height: 42px; /* Set fixed height for alignment */
+  overflow: hidden;
+}
+.product-unit {
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+.add-to-cart-btn,
+.quantity-control {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.add-to-cart-btn {
+  background-color: #fef2f2;
+  border: 1px solid var(--primary-red);
+  color: var(--primary-red);
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.add-to-cart-btn:hover {
+  background-color: var(--primary-red);
+  color: white;
+}
+
+.quantity-control {
+  display: flex;
+  align-items: center;
+  background-color: var(--primary-red);
+  color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.quantity-control button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.3rem 0.8rem;
+}
+.quantity-control span {
+  padding: 0 0.5rem;
+  font-weight: 500;
+}
+
+/* --- Order Summary Bar --- */
+.order-summary-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--primary-red-dark);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 3rem;
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+.summary-details p {
+  margin: 0;
+  opacity: 0.9;
+}
+.summary-details h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+.summary-checkout-btn {
+  background-color: white;
+  color: var(--primary-red-dark);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.summary-checkout-btn:hover {
+  transform: scale(1.05);
+}

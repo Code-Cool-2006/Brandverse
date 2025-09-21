@@ -1,96 +1,240 @@
-/* Landing page scoped styles */
+/* All styles are scoped to .lander-wrapper to prevent overlay/mixing with other pages */
 
-.lander-user-profile {
-  display: block;
-  width: calc(100% - 2rem);
-  margin: 0 1rem 0.75rem;
-  padding: 0;
-  background: transparent;
-  border: 1px solid #E5E7EB;
-  border-radius: 12px;
-  text-decoration: none;
-  color: inherit;
-  transition: box-shadow 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
+.lander-wrapper {
+  font-family: "Poppins", sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  min-height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
-.lander-user-profile:hover {
-  border-color: #2563EB;
-  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
-  transform: translateY(-1px);
-}
-
-.lander-user-profile-inner {
+/* 🌟 Hero Section */
+.lander-wrapper .hero {
+  position: relative;
+  width: 100vw;
+  height: 400px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 0.75rem 1rem;
+  overflow: hidden;
+  background: #222;
+  border-bottom-left-radius: 40px;
+  border-bottom-right-radius: 40px;
 }
 
-.lander-user-profile-inner svg {
-  width: 20px;
-  height: 20px;
-  fill: currentColor;
+.lander-wrapper .hero-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
 
-.lander-user-profile-inner p {
-  margin: 0;
+.lander-wrapper .hero-overlay {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 1rem;
+  max-width: 600px;
+  margin: auto;
+}
+
+.lander-wrapper .hero-title {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  animation: fadeInDown 1s ease;
+}
+
+.lander-wrapper .hero-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  animation: fadeInUp 1.2s ease;
+}
+
+.lander-wrapper .hero-subtitle span {
+  color: #ffcc00;
   font-weight: 600;
-  color: #2563EB;
 }
 
-/* Home Page */
-.home-container {
-  max-width: 1200px;
-  margin: 0 auto;
+.lander-wrapper .hero-btn {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #007bff, #0056d4);
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.lander-wrapper .hero-btn:hover {
+  background: linear-gradient(135deg, #0056d4, #003fa3);
+  transform: translateY(-2px);
+}
+
+/* 🌟 Sub-Hero Section */
+.lander-wrapper .sub-hero {
+  width: 100vw;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 0 1.5rem 0;
+  box-sizing: border-box;
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
+}
+
+/* 🌟 Cards Section */
+.lander-wrapper .lander-card {
+  width: 18rem;
+  border-radius: 30px;
+  overflow: hidden;
+  transition: transform 0.4s, box-shadow 0.4s;
+  background: white;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+
+.lander-wrapper .lander-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.lander-wrapper .card-img-top {
+  border-bottom: 1px solid #eee;
+}
+
+.lander-wrapper .card-body {
+  text-align: center;
   padding: 1rem;
 }
 
-header {
+.lander-wrapper .card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.lander-wrapper .card-text {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* 🌟 Cards Section - Fully stretched tab row with white background */
+.lander-wrapper .lander-tab-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem 0;
-  border-bottom: 1px solid #ddd;
+  align-items: stretch;
+  gap: 2rem;
+  width: 100vw;
+  max-width: 100vw;
+  background: #fff;
+  padding: 2.5rem 4vw;
+  box-sizing: border-box;
+  margin: 0;
+  border-radius: 40px;
 }
 
-nav {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.restaurants-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.restaurant-card {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
-  background-color: #f9f9f9;
-}
-
-.restaurant-card h3 {
-  margin-bottom: 0.5rem;
-}
-
-/* Login/Register */
-.login-container,
-.register-container {
+.lander-wrapper .lander-tab-row .lander-card {
+  flex: 1 1 0;
+  min-width: 260px;
   max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
 }
 
-.login-container h2,
-.register-container h2 {
+/* 🌟 Buttons */
+.lander-wrapper .lander-user-profile {
+  width: 90%;
+  margin: 0.5rem auto;
+  display: flex;
+  justify-content: center;
+  border: none;
+  border-radius: 30px;
+  padding: 0.8rem;
+  cursor: pointer;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color: white;
+  font-weight: 600;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.lander-wrapper .lander-user-profile:hover {
+  background: linear-gradient(135deg, #ee0979, #b2066b);
+  transform: translateY(-3px);
+}
+
+.lander-wrapper .lander-user-profile-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.lander-wrapper .lander-user-profile-inner p {
+  margin: 0;
+}
+
+/* 🌟 Footer */
+.lander-wrapper .lander-footer {
+  background: #111;
+  color: #aaa;
   text-align: center;
-  margin-bottom: 1rem;
+  padding: 0;
+  margin-top: 3rem;
+  position: relative;
+  width: 100vw;
+  height: 180px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+}
+
+.lander-wrapper .footer-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.lander-wrapper .lander-footer p,
+.lander-wrapper .footer-links {
+  position: relative;
+  z-index: 2;
+}
+
+/* 🌟 Animations */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

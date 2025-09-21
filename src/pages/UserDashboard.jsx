@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, useGLTF } from "@react-three/drei";
 import Chatbot from "./Chatbot";
 import PaymentPage from "./Payment";
 
@@ -175,7 +173,7 @@ const foodItems = [
   },
 ];
 
-// --- AR Models Data with all 8 GLB files from public/models directory ---
+// --- Restaurant Data ---
 const restaurantData = [];
 
 // --- Toast Notification Component ---
@@ -203,7 +201,7 @@ const ToastNotification = ({ message, isVisible }) => {
 };
 
 // --- Nutritional Information Display Component ---
-const NutritionalDisplay = ({ itemName, isDiabeticFriendly }) => {
+const NutritionalDisplay = ({ itemName, isDiabeticFriendly, aiSummary }) => {
   // Generate sample nutritional data based on item name
   const getNutritionalData = (name) => {
     const lowerName = name.toLowerCase();
@@ -276,6 +274,17 @@ const NutritionalDisplay = ({ itemName, isDiabeticFriendly }) => {
   };
 
   const nutritionData = getNutritionalData(itemName);
+  // Deterministic glycemic bars (avoid random on each render)
+  const glycemicBars = useMemo(() => {
+    const seed =
+      Array.from(itemName || "").reduce(
+        (acc, ch) => acc + ch.charCodeAt(0),
+        0
+      ) || 1;
+    let x = seed >>> 0;
+    const next = () => (x = (x * 1664525 + 1013904223) >>> 0) / 4294967296;
+    return Array.from({ length: 8 }, () => Math.floor(next() * 30 + 10));
+  }, [itemName]);
 
   return (
     <div className="nutritional-display">
@@ -285,6 +294,14 @@ const NutritionalDisplay = ({ itemName, isDiabeticFriendly }) => {
           <div className="diabetes-badge">Diabetes-Friendly</div>
         )}
       </div>
+      {aiSummary && (
+        <div className="gemini-insights">
+          <strong>AI Summary</strong>
+          <div style={{ marginTop: 8, whiteSpace: "pre-wrap" }}>
+            {aiSummary}
+          </div>
+        </div>
+      )}
 
       <div className="nutritional-facts">
         <div className="nutrition-item">
@@ -348,11 +365,11 @@ const NutritionalDisplay = ({ itemName, isDiabeticFriendly }) => {
       <div className="glycemic-info">
         <h4>Glycemic Load: {nutritionData.glycemicLoad}</h4>
         <div className="glycemic-chart">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+          {glycemicBars.map((h, i) => (
             <div
               key={i}
               className="glycemic-bar"
-              style={{ height: `${Math.random() * 30 + 10}px` }}
+              style={{ height: `${h}px` }}
             ></div>
           ))}
         </div>
@@ -549,36 +566,6 @@ const RecipeModal = ({ recipe, isOpen, onClose }) => {
   );
 };
 
-// --- New AR Viewer Modal Component ---
-const ARViewerModal = ({ isOpen, onClose, arObjectPath }) => {
-  if (!isOpen) return null;
-
-  function GltfModel({ url }) {
-    const { scene } = useGLTF(url);
-    return <primitive object={scene} />;
-  }
-
-  return (
-    <div className="ar-modal-backdrop">
-      <div className="ar-modal-content">
-        <button className="close-ar-btn" onClick={onClose}>
-          &times;
-        </button>
-        <div style={{ width: "100%", height: "100%" }}>
-          <Canvas camera={{ position: [0, 1, 3], fov: 45 }} style={{ width: "100%", height: "100%" }}>
-            <ambientLight intensity={0.8} />
-            <directionalLight position={[5, 5, 5]} intensity={1} />
-            <Suspense fallback={null}>
-              <GltfModel url={arObjectPath} />
-            </Suspense>
-            <OrbitControls enableDamping makeDefault />
-          </Canvas>
-        </div>
-      </div>
-    </div>
-  );
-};
-
 function UserDashboard() {
   const [activeFilter, setActiveFilter] = useState("home");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -605,8 +592,6 @@ function UserDashboard() {
   const [recipeLoading, setRecipeLoading] = useState(false);
   const [includeCharity, setIncludeCharity] = useState(true);
   const [charityAmount, setCharityAmount] = useState(2);
-  const [isARModalOpen, setIsARModalOpen] = useState(false);
-  const [arObjectPath, setArObjectPath] = useState("");
   const [pickupAddress, setPickupAddress] = useState("");
   const [destinationAddress, setDestinationAddress] = useState("");
   const [pickupCoordinates, setPickupCoordinates] = useState(null);
@@ -801,17 +786,57 @@ function UserDashboard() {
   };
 
   // --- Cart and Toast Logic ---
-  const handleAddToCart = (item) => {
+  const handleAddToCart = async (item) => {
     const normalized = {
       ...item,
       price:
         typeof item.price === "string" ? parseFloat(item.price) : item.price,
       quantity: item.quantity || 1,
     };
+
+    // Add to local cart immediately for better UX
     setCart((prev) => [...prev, normalized]);
     setToastMessage(`${item.name} added to cart!`);
     setIsToastVisible(true);
     setTimeout(() => setIsToastVisible(false), 3000);
+
+    // Try to save to backend database
+    try {
+      // Find the restaurant ID from the API restaurants
+      const restaurant = apiRestaurants.find((r) => r.name === item.restaurant);
+      if (restaurant) {
+        const response = await fetch(
+          `http://localhost:5000/api/restaurants/${restaurant.id}/dishes`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name: item.name,
+              price: normalized.price,
+              image: item.image || "",
+              category: item.category || "multi",
+              diabeticFriendly: item.diabeticFriendly || false,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          console.warn("Failed to save dish to backend:", response.statusText);
+          // Don't show error to user as the cart functionality still works
+        } else {
+          console.log("Dish saved to backend successfully");
+        }
+      } else {
+        console.warn(
+          "Restaurant not found in API restaurants, skipping backend save"
+        );
+      }
+    } catch (error) {
+      console.warn("Error saving dish to backend:", error);
+      // Don't show error to user as the cart functionality still works
+    }
   };
 
   const handleCheckoutAll = () => {
@@ -838,74 +863,6 @@ function UserDashboard() {
       }, 300);
     }
   };
-
-  // --- AR Models Data with all 8 GLB files from public/models directory ---
-  const arModels = [
-    {
-      id: 1,
-      name: "Starbucks Coffee",
-      modelPath: "/models/STARBUCKS_COFFEE.glb",
-      image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit-crop",
-      description: "Premium coffee experience",
-      type: "beverage",
-    },
-    {
-      id: 2,
-      name: "Biryani",
-      modelPath: "/models/biryani.glb",
-      image: "https://images.unsplash.com/photo-1563379091339-03246963d4b3?q=80&w=2070&auto=format&fit-crop",
-      description: "Traditional Indian biryani dish",
-      type: "food",
-    },
-    {
-      id: 3,
-      name: "Gulab Jamun",
-      modelPath: "/models/gulab_jamun.glb",
-      image: "https://images.unsplash.com/photo-1588117260148-b47818741c74?q=80&w=2070&auto=format&fit-crop",
-      description: "Sweet Indian dessert",
-      type: "dessert",
-    },
-    {
-      id: 4,
-      name: "Indian Curry",
-      modelPath: "/models/indian_curry.glb",
-      image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=2070&auto=format&fit-crop",
-      description: "Rich and flavorful curry",
-      type: "food",
-    },
-    {
-      id: 5,
-      name: "Indian Thali",
-      modelPath: "/models/indian_thali__free.glb",
-      image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=2070&auto=format&fit-crop",
-      description: "Complete traditional meal",
-      type: "food",
-    },
-    {
-      id: 6,
-      name: "Pizza",
-      modelPath: "/models/pizza (2).glb",
-      image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?q=80&w=2070&auto=format&fit-crop",
-      description: "Classic Italian pizza",
-      type: "food",
-    },
-    {
-      id: 7,
-      name: "Basic Shaded Model",
-      modelPath: "/models/base_basic_shaded.glb",
-      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=2070&auto=format&fit-crop",
-      description: "Basic 3D model with shading",
-      type: "model",
-    },
-    {
-      id: 8,
-      name: "Mystery Model",
-      modelPath: "/models/1e19b60d29994ff08e5b37e4c0592604.glb",
-      image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070&auto=format&fit-crop",
-      description: "Mysterious 3D object",
-      type: "model",
-    },
-  ];
 
   // --- Search Logic ---
   const performSearch = (query) => {
@@ -1022,33 +979,26 @@ function UserDashboard() {
     }
   };
 
-  // --- AR Handlers ---
-  const handleViewInAR = (item) => {
-    const normalizedName = item?.name?.toLowerCase?.() || "";
-    const matched = item?.modelPath
-      ? item
-      : arModels.find((m) => m.name.toLowerCase() === normalizedName);
-    const fallback = arModels.find(
-      (m) => m.name.toLowerCase() === "basic shaded model"
-    );
-    const path = matched?.modelPath || fallback?.modelPath || "/models/base_basic_shaded.glb";
-    setArObjectPath(path);
-    setIsARModalOpen(true);
-  };
-
-  const handleViewARModel = (model) => {
-    const path = model?.modelPath || "/models/base_basic_shaded.glb";
-    setArObjectPath(path);
-    setIsARModalOpen(true);
-  };
-
   // --- Restaurants Handlers ---
-  const handleRestaurantClick = (restaurant) => {
+  const handleRestaurantClick = async (restaurant) => {
     setSelectedRestaurant(restaurant);
-    const dishes = foodItems.filter(
-      (item) => item.restaurant && item.restaurant === restaurant.name
-    );
-    setRestaurantDishes(dishes);
+
+    // Fetch dishes from backend instead of using static data
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/restaurants/${restaurant.id}/dishes`
+      );
+      const data = await response.json();
+      const dishes = data.dishes || [];
+      setRestaurantDishes(dishes);
+    } catch (error) {
+      console.error("Error fetching restaurant dishes:", error);
+      // Fallback to static data if API fails
+      const fallbackDishes = foodItems.filter(
+        (item) => item.restaurant && item.restaurant === restaurant.name
+      );
+      setRestaurantDishes(fallbackDishes);
+    }
   };
 
   const removeFromCart = (itemId) => {
@@ -2113,11 +2063,6 @@ function UserDashboard() {
           isOpen={isRecipeModalOpen}
           onClose={() => setIsRecipeModalOpen(false)}
         />
-        <ARViewerModal
-          isOpen={isARModalOpen}
-          onClose={() => setIsARModalOpen(false)}
-          arObjectPath={arObjectPath}
-        />
         <header className="dashboard-header">
           <div className="logo">
             <svg
@@ -2180,13 +2125,6 @@ function UserDashboard() {
               onClick={() => handleFilterClick("diabetic")}
             >
               Diabetic
-            </a>
-            <a
-              href="#"
-              className={activeFilter === "ar" ? "active" : ""}
-              onClick={() => handleFilterClick("ar")}
-            >
-              View in AR
             </a>
           </nav>
           <div className="user-profile-section">
@@ -2320,12 +2258,6 @@ function UserDashboard() {
                               +
                             </button>
                           </div>
-                          <button
-                            className="view-ar-btn"
-                            onClick={() => handleViewInAR(item)}
-                          >
-                            View in AR
-                          </button>
                         </div>
                         <div className="food-insights-section">
                           <button
@@ -2426,12 +2358,6 @@ function UserDashboard() {
                               +
                             </button>
                           </div>
-                          <button
-                            className="view-ar-btn"
-                            onClick={() => handleViewInAR(item)}
-                          >
-                            View in AR
-                          </button>
                         </div>
                         <div className="food-insights-section">
                           <button
@@ -2449,49 +2375,6 @@ function UserDashboard() {
                               isDiabeticFriendly={item.diabeticFriendly}
                             />
                           )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-              )}
-
-              {activeFilter === "ar" && (
-                <section>
-                  <h2>View in AR</h2>
-                  <div className="food-grid">
-                    {arModels.map((model) => (
-                      <div className="food-card" key={model.id}>
-                        <div className="food-image-container">
-                          <img src={model.image} alt={model.name} />
-                          <button className="fav-button">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="20"
-                              height="20"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            >
-                              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
-                          </button>
-                        </div>
-                        <div className="food-details">
-                          <h3>{model.name}</h3>
-                          <p>{model.description}</p>
-                          <div className="food-meta">
-                            <span>{model.type}</span>
-                            <button
-                              className="add-button"
-                              onClick={() => handleViewARModel(model)}
-                            >
-                              View AR
-                            </button>
-                          </div>
                         </div>
                       </div>
                     ))}

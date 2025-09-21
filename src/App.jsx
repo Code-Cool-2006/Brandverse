@@ -1,5 +1,5 @@
 import React from "react";
-import '@google/model-viewer';
+import "@google/model-viewer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import LoginCustom from "./pages/LoginCustom";

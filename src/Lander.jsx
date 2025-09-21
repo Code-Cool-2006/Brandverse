@@ -1,98 +1,118 @@
 import React from "react";
-import { Link } from "react-router-dom"; // ✅ Import Link
+import { Link } from "react-router-dom";
 import "./lander.css";
 import customerImage from "./assets/Gemini_Generated_Image_jxmm7ijxmm7ijxmm.png";
 import staffImage from "./assets/Gemini_Generated_Image_a4zahha4zahha4za.png";
 import partnerImage from "./assets/Gemini_Generated_Image_dxih55dxih55dxih.png";
+import heroImage from "./assets/hero_section.jpg";
+import footerImage from "./assets/footer.jpg";
 
 function Lander() {
   return (
-    <div className="d-flex justify-content-around flex-wrap gap-4 p-4">
-      
-      {/* Customer Card */}
-      <div className="card shadow-lg" style={{ width: "18rem", transition: "transform 0.3s" }}>
-        <img src={customerImage} className="card-img-top" alt="Customer" />
-        <div className="card-body">
-          <h5 className="card-title text-primary">Customer</h5>
-          <p className="card-text text-secondary">
-            Some quick example text to build on the card title and make up the bulk of the card’s content.
+    <div className="lander-wrapper">
+      {/* ✅ Hero Section with Image */}
+      <section className="hero">
+        <img src={heroImage} alt="TomatoVerse Hero" className="hero-img" />
+      </section>
+
+      {/* ✅ Sub-Hero Section */}
+      <section className="sub-hero">
+        <div className="sub-hero-content">
+          <h1 className="hero-title">Welcome to TOMATOVERSE</h1>
+          <p className="hero-subtitle">
+            Seamlessly connecting <span>Customers</span>, <span>Staff</span>,
+            and <span>Partners</span>.
           </p>
         </div>
-        {/* Guest Login */}
-        <Link to="/user-dashboard" className="lander-user-profile mb-2">
-          <div className="lander-user-profile-inner">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g data-name="Layer 2" id="Layer_2">
-                <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
-              </g>
-            </svg>
-            <p>Guest Login</p>
-          </div>
-        </Link>
-        {/* Sign Up */}
-        <button className="lander-user-profile">
-          <div className="lander-user-profile-inner">
-            <p>Sign Up</p>
-          </div>
-        </button>
-      </div>
+      </section>
 
-      {/* Staff Card */}
-      <div className="card shadow-lg" style={{ width: "18rem", transition: "transform 0.3s" }}>
-        <img src={staffImage} className="card-img-top" alt="Staff" />
-        <div className="card-body">
-          <h5 className="card-title text-primary">Staff</h5>
-          <p className="card-text text-secondary">
-            Some quick example text to build on the card title and make up the bulk of the card’s content.
-          </p>
+      {/* ✅ Cards Section - Fully stretched, white background */}
+      <div id="cards" className="lander-tab-row">
+        {/* Customer Card */}
+        <div className="card lander-card shadow-lg">
+          <img src={customerImage} className="card-img-top" alt="Customer" />
+          <div className="card-body">
+            <h5 className="card-title text-primary">Customer</h5>
+            <p className="card-text text-secondary">
+              Access personalized services and explore our offerings designed
+              just for you.
+            </p>
+          </div>
+          <Link to="/user-dashboard" className="lander-user-profile mb-2">
+            <div className="lander-user-profile-inner">
+              <p>Guest Login</p>
+            </div>
+          </Link>
+          <button className="lander-user-profile" navigate="/logincustom">
+            <div className="lander-user-profile-inner">
+              <p>Sign Up</p>
+            </div>
+          </button>
         </div>
-        {/* Guest Login */}
-        <Link to="/staff-dashboard" className="lander-user-profile mb-2">
-          <div className="lander-user-profile-inner">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g data-name="Layer 2" id="Layer_2">
-                <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
-              </g>
-            </svg>
-            <p>Guest Login</p>
-          </div>
-        </Link>
-        {/* Sign Up */}
-        <button className="lander-user-profile">
-          <div className="lander-user-profile-inner">
-            <p>Sign Up</p>
-          </div>
-        </button>
-      </div>
 
-      {/* Partner Card */}
-      <div className="card shadow-lg" style={{ width: "18rem", transition: "transform 0.3s" }}>
-        <img src={partnerImage} className="card-img-top" alt="Delivery Partner" />
-        <div className="card-body">
-          <h5 className="card-title text-primary">Partner</h5>
-          <p className="card-text text-secondary">
-            Some quick example text to build on the card title and make up the bulk of the card’s content.
-          </p>
+        {/* Staff Card */}
+        <div className="card lander-card shadow-lg">
+          <img src={staffImage} className="card-img-top" alt="Staff" />
+          <div className="card-body">
+            <h5 className="card-title text-primary">Staff</h5>
+            <p className="card-text text-secondary">
+              Manage operations, access your dashboard, and provide seamless
+              service.
+            </p>
+          </div>
+          <Link to="/staff-dashboard" className="lander-user-profile mb-2">
+            <div className="lander-user-profile-inner">
+              <p>Guest Login</p>
+            </div>
+          </Link>
+          <button className="lander-user-profile">
+            <div className="lander-user-profile-inner">
+              <p>Sign Up</p>
+            </div>
+          </button>
         </div>
-        {/* Guest Login */}
-        <Link to="/partner-dashboard" className="lander-user-profile mb-2">
-          <div className="lander-user-profile-inner">
-            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <g data-name="Layer 2" id="Layer_2">
-                <path d="m15.626 11.769a6 6 0 1 0 -7.252 0 9.008 9.008 0 0 0 -5.374 8.231 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 9.008 9.008 0 0 0 -5.374-8.231zm-7.626-4.769a4 4 0 1 1 4 4 4 4 0 0 1 -4-4zm10 14h-12a1 1 0 0 1 -1-1 7 7 0 0 1 14 0 1 1 0 0 1 -1 1z"></path>
-              </g>
-            </svg>
-            <p>Guest Login</p>
+
+        {/* Partner Card */}
+        <div className="card lander-card shadow-lg">
+          <img
+            src={partnerImage}
+            className="card-img-top"
+            alt="Delivery Partner"
+          />
+          <div className="card-body">
+            <h5 className="card-title text-primary">Partner</h5>
+            <p className="card-text text-secondary">
+              Join our network, deliver efficiently, and grow your business with
+              us.
+            </p>
           </div>
-        </Link>
-        {/* Sign Up */}
-        <button className="lander-user-profile">
-          <div className="lander-user-profile-inner">
-            <p>Sign Up</p>
-          </div>
-        </button>
+          <Link to="/partner-dashboard" className="lander-user-profile mb-2">
+            <div className="lander-user-profile-inner">
+              <p>Guest Login</p>
+            </div>
+          </Link>
+          <button className="lander-user-profile">
+            <div className="lander-user-profile-inner">
+              <p>Sign Up</p>
+            </div>
+          </button>
+        </div>
       </div>
 
+      {/* ✅ Footer with Image */}
+      <footer className="lander-footer">
+        <img
+          src={footerImage}
+          alt="TomatoVerse Footer"
+          className="footer-img"
+        />
+        <p>© {new Date().getFullYear()} TOMATOVERSE. All Rights Reserved.</p>
+        <div className="footer-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms</a>
+          <a href="#">Support</a>
+        </div>
+      </footer>
     </div>
   );
 }

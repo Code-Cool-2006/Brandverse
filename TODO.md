@@ -1,39 +1,49 @@
-# Charity Functionality Implementation
+# Fix Dish Adding Functionality
 
-## Current Status: Completed ✅
+## Problem
 
-### Completed Steps:
+Dishes are not getting added to the backend database - only local cart state is updated.
 
-- [x] Add charityAmount state variable
-- [x] Create charity input UI in CartSidebar
-- [x] Update CartSidebar calculations to use dynamic charity amount
-- [x] Update CheckoutPage to use dynamic charity amount
-- [x] Add validation for charity amount input
-- [x] Add CSS styling for the charity input section
+## Plan Implementation Steps
 
-### Next Steps:
+### Step 1: Backend Integration for UserDashboard
 
-1. Test the complete flow
-2. Verify calculations are correct
-3. Ensure the amount persists when navigating between cart and checkout
+- [x] Modify `handleAddToCart` function to call backend API
+- [x] Add API call to `POST /api/restaurants/:id/dishes` when adding items
+- [x] Add error handling for API failures
+- [x] Add loading states for API operations
 
-## Implementation Summary:
+### Step 2: Create Dish Management Interface
 
-✅ **State Management**: Added `charityAmount` state variable with default value of 2
-✅ **CartSidebar Component**:
+- [x] Create new file `src/pages/DishManagement.jsx`
+- [x] Add form to create new dishes
+- [x] Add functionality to edit/delete existing dishes
+- [x] Integrate with backend API endpoints
 
-- Added charity input field with proper validation
-- Updated calculations to use dynamic charity amount
-- Added professional styling for the input section
-  ✅ **CheckoutPage Component**: Updated to accept and use dynamic charity amount
-  ✅ **Component Props**: Updated all component calls to pass charityAmount and setCharityAmount props
-  ✅ **CSS Styling**: Added comprehensive styles for the charity input section with focus states and proper UX
+### Step 3: Improve Cart Functionality
 
-## Features Implemented:
+- [ ] Add option to sync cart with backend
+- [ ] Add proper error handling and user feedback
+- [ ] Add loading indicators for cart operations
+- [ ] Test cart persistence across sessions
 
-- Users can now input their own charity amount
-- Input validation ensures only positive numbers are accepted
-- Real-time calculation updates as users type
-- Professional UI with proper styling and focus states
-- Amount persists across component re-renders
-- Works in both CartSidebar and CheckoutPage components
+### Step 4: Update Database Integration
+
+- [ ] Ensure dishes are properly saved to backend
+- [ ] Add functionality to fetch dishes from backend for restaurants
+- [ ] Test API endpoints functionality
+- [ ] Verify data persistence
+
+### Step 5: Testing and Validation
+
+- [ ] Test API endpoints with curl/Postman
+- [ ] Verify cart functionality works with backend
+- [ ] Test complete flow from adding dishes to checkout
+- [ ] Test error scenarios and edge cases
+
+## Current Status
+
+- [x] Analysis completed - identified root cause
+- [x] Plan created and approved
+- [x] Backend integration for UserDashboard completed
+- [ ] Implementation in progress
