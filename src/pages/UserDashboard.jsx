@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
+import { Canvas } from "@react-three/fiber";
+import { OrbitControls, useGLTF } from "@react-three/drei";
 import Chatbot from "./Chatbot";
 import PaymentPage from "./Payment";
 
@@ -173,7 +175,7 @@ const foodItems = [
   },
 ];
 
-// Static restaurant list removed; restaurants are now loaded from the backend API
+// --- AR Models Data with all 8 GLB files from public/models directory ---
 const restaurantData = [];
 
 // --- Toast Notification Component ---
@@ -551,18 +553,26 @@ const RecipeModal = ({ recipe, isOpen, onClose }) => {
 const ARViewerModal = ({ isOpen, onClose, arObjectPath }) => {
   if (!isOpen) return null;
 
+  function GltfModel({ url }) {
+    const { scene } = useGLTF(url);
+    return <primitive object={scene} />;
+  }
+
   return (
     <div className="ar-modal-backdrop">
       <div className="ar-modal-content">
         <button className="close-ar-btn" onClick={onClose}>
           &times;
         </button>
-        <div className="ar-placeholder">
-          <img
-            src="https://placehold.co/400x400/F08080/FFFFFF?text=3D+Model+Here"
-            alt="3D Model Placeholder"
-          />
-          <p>Mock AR view for: {arObjectPath}</p>
+        <div style={{ width: "100%", height: "100%" }}>
+          <Canvas camera={{ position: [0, 1, 3], fov: 45 }} style={{ width: "100%", height: "100%" }}>
+            <ambientLight intensity={0.8} />
+            <directionalLight position={[5, 5, 5]} intensity={1} />
+            <Suspense fallback={null}>
+              <GltfModel url={arObjectPath} />
+            </Suspense>
+            <OrbitControls enableDamping makeDefault />
+          </Canvas>
         </div>
       </div>
     </div>
@@ -829,21 +839,73 @@ function UserDashboard() {
     }
   };
 
-  const handleRestaurantClick = (restaurant) => {
-    setSelectedRestaurant(restaurant);
-    // Load dishes for this restaurant from backend
-    fetch(`http://localhost:5000/api/restaurants/${restaurant.id}/dishes`)
-      .then((res) => res.json())
-      .then((data) =>
-        setRestaurantDishes(Array.isArray(data.dishes) ? data.dishes : [])
-      )
-      .catch(() => setRestaurantDishes([]));
-  };
-
-  const handleViewInAR = (item) => {
-    setArObjectPath(`/assets/models/${item.id}.glb`);
-    setIsARModalOpen(true);
-  };
+  // --- AR Models Data with all 8 GLB files from public/models directory ---
+  const arModels = [
+    {
+      id: 1,
+      name: "Starbucks Coffee",
+      modelPath: "/models/STARBUCKS_COFFEE.glb",
+      image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit-crop",
+      description: "Premium coffee experience",
+      type: "beverage",
+    },
+    {
+      id: 2,
+      name: "Biryani",
+      modelPath: "/models/biryani.glb",
+      image: "https://images.unsplash.com/photo-1563379091339-03246963d4b3?q=80&w=2070&auto=format&fit-crop",
+      description: "Traditional Indian biryani dish",
+      type: "food",
+    },
+    {
+      id: 3,
+      name: "Gulab Jamun",
+      modelPath: "/models/gulab_jamun.glb",
+      image: "https://images.unsplash.com/photo-1588117260148-b47818741c74?q=80&w=2070&auto=format&fit-crop",
+      description: "Sweet Indian dessert",
+      type: "dessert",
+    },
+    {
+      id: 4,
+      name: "Indian Curry",
+      modelPath: "/models/indian_curry.glb",
+      image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?q=80&w=2070&auto=format&fit-crop",
+      description: "Rich and flavorful curry",
+      type: "food",
+    },
+    {
+      id: 5,
+      name: "Indian Thali",
+      modelPath: "/models/indian_thali__free.glb",
+      image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?q=80&w=2070&auto=format&fit-crop",
+      description: "Complete traditional meal",
+      type: "food",
+    },
+    {
+      id: 6,
+      name: "Pizza",
+      modelPath: "/models/pizza (2).glb",
+      image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?q=80&w=2070&auto=format&fit-crop",
+      description: "Classic Italian pizza",
+      type: "food",
+    },
+    {
+      id: 7,
+      name: "Basic Shaded Model",
+      modelPath: "/models/base_basic_shaded.glb",
+      image: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?q=80&w=2070&auto=format&fit-crop",
+      description: "Basic 3D model with shading",
+      type: "model",
+    },
+    {
+      id: 8,
+      name: "Mystery Model",
+      modelPath: "/models/1e19b60d29994ff08e5b37e4c0592604.glb",
+      image: "https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=2070&auto=format&fit-crop",
+      description: "Mysterious 3D object",
+      type: "model",
+    },
+  ];
 
   // --- Search Logic ---
   const performSearch = (query) => {
@@ -958,6 +1020,35 @@ function UserDashboard() {
     if (path === "/payment") {
       handlePlaceOrder();
     }
+  };
+
+  // --- AR Handlers ---
+  const handleViewInAR = (item) => {
+    const normalizedName = item?.name?.toLowerCase?.() || "";
+    const matched = item?.modelPath
+      ? item
+      : arModels.find((m) => m.name.toLowerCase() === normalizedName);
+    const fallback = arModels.find(
+      (m) => m.name.toLowerCase() === "basic shaded model"
+    );
+    const path = matched?.modelPath || fallback?.modelPath || "/models/base_basic_shaded.glb";
+    setArObjectPath(path);
+    setIsARModalOpen(true);
+  };
+
+  const handleViewARModel = (model) => {
+    const path = model?.modelPath || "/models/base_basic_shaded.glb";
+    setArObjectPath(path);
+    setIsARModalOpen(true);
+  };
+
+  // --- Restaurants Handlers ---
+  const handleRestaurantClick = (restaurant) => {
+    setSelectedRestaurant(restaurant);
+    const dishes = foodItems.filter(
+      (item) => item.restaurant && item.restaurant === restaurant.name
+    );
+    setRestaurantDishes(dishes);
   };
 
   const removeFromCart = (itemId) => {
@@ -2090,6 +2181,13 @@ function UserDashboard() {
             >
               Diabetic
             </a>
+            <a
+              href="#"
+              className={activeFilter === "ar" ? "active" : ""}
+              onClick={() => handleFilterClick("ar")}
+            >
+              View in AR
+            </a>
           </nav>
           <div className="user-profile-section">
             <button
@@ -2351,6 +2449,49 @@ function UserDashboard() {
                               isDiabeticFriendly={item.diabeticFriendly}
                             />
                           )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {activeFilter === "ar" && (
+                <section>
+                  <h2>View in AR</h2>
+                  <div className="food-grid">
+                    {arModels.map((model) => (
+                      <div className="food-card" key={model.id}>
+                        <div className="food-image-container">
+                          <img src={model.image} alt={model.name} />
+                          <button className="fav-button">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="20"
+                              height="20"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                          </button>
+                        </div>
+                        <div className="food-details">
+                          <h3>{model.name}</h3>
+                          <p>{model.description}</p>
+                          <div className="food-meta">
+                            <span>{model.type}</span>
+                            <button
+                              className="add-button"
+                              onClick={() => handleViewARModel(model)}
+                            >
+                              View AR
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}
