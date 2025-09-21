@@ -2,11 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Grocery.css";
 
-// --- Comprehensive Dummy Data for Groceries ---
+// --- Comprehensive Dummy Data for Groceries (with corrected categories) ---
 const groceryData = {
   categories: [
     { id: "fresh", name: "Fresh Corner" },
-    { id: "snacks", name: "Chips & Snacks" },
+    { id: "snacks", name: "Groceries" },
     { id: "juices", name: "Juices & Drinks" },
     { id: "dairy", name: "Dairy & Bread" },
     { id: "cleaning", name: "Cleaning Essentials" },
@@ -19,7 +19,7 @@ const groceryData = {
       name: "Fresh Onions",
       price: 30,
       image:
-        "https://images.unsplash.com/photo-1587049352851-d481dd12356d?q=80&w=1974&auto=format&fit=crop",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLOZMdGC6UuMJiIDE__sDw_XbdKj9rdkeGdA&s",
       unit: "1 kg",
     },
     {
@@ -28,7 +28,7 @@ const groceryData = {
       name: "Ripe Tomatoes",
       price: 45,
       image:
-        "https://images.unsplash.com/photo-1561138723-c3d31229a8a3?q=80&w=2070&auto=format&fit=crop",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpgA44UvvwXsoOCvzVGsLFs854Lrt38WUqyQ&s",
       unit: "1 kg",
     },
     {
@@ -50,69 +50,60 @@ const groceryData = {
       unit: "1 dozen",
     },
 
-    // Snacks
-    {
-      id: 201,
-      category: "snacks",
-      name: "Lay's India's Magic Masala",
-      price: 20,
-      image:
-        "https://www.bigbasket.com/media/uploads/p/l/294275_18-lays-potato-chips-indias-magic-masala.jpg",
-      unit: "52 g",
-    },
+    // Snacks (Corrected from "groceries")
     {
       id: 202,
       category: "snacks",
-      name: "Lay's American Style Cream & Onion",
+      name: "Oil",
       price: 20,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/294274_21-lays-potato-chips-american-style-cream-onion-flavour.jpg",
-      unit: "52 g",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTg1a04uSAm2G011-q2_HwZPJojI-z8DQQ85w&s",
+      unit: "1 L",
     },
     {
       id: 203,
       category: "snacks",
-      name: "Bingo! Mad Angles Achaari Masti",
+      name: "Aashirvad Rava",
       price: 10,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/40016335_21-bingo-mad-angles-chips-achaari-masti.jpg",
-      unit: "40 g",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxprnC1YfAvt4KAFykGMcbNGIQAT0e7SzSNQ&s",
+      unit: "500 g",
     },
     {
       id: 204,
       category: "snacks",
-      name: "Parle-G Gold Biscuits",
+      name: "Vijay Gold Avalaki Poha",
       price: 10,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/1203933_7-parle-g-gold-biscuits.jpg",
-      unit: "100 g",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR7FF1HQ8eCkIrqhZ3GfRh7DFRjCWtg7NtLRA&s",
+      unit: "500 g",
     },
     {
       id: 205,
       category: "snacks",
-      name: "Britannia Good Day Cashew",
+      name: "Fortune Maida",
       price: 40,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/40018898_14-britannia-good-day-cashew-cookies.jpg",
-      unit: "200 g",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDvPQx3jR68KTASpuDgW54Vvkl6riRFKnzGA&s",
+      unit: "500 g",
     },
     {
       id: 206,
       category: "snacks",
-      name: "Sunfeast Marie Light",
-      price: 30,
+      name: "Wheat Flour",
+      price: 55,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/1202685_5-sunfeast-marie-light-biscuits-active.jpg",
-      unit: "300 g",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHrKWbrOkWin9NIdrs4Tjn9gzAnAV3XAKX1g&s",
+      unit: "3 kg",
     },
     {
       id: 207,
       category: "snacks",
-      name: "Cadbury Oreo Vanilla Creme",
-      price: 30,
+      name: "Rice",
+      price: 60,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/40026336_3-cadbury-oreo-vanilla-creme-biscuit.jpg",
-      unit: "120 g",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0u3HZo9Ct4jxnTKhsk2Gtc3whbo5zaIeCnw&s",
+      unit: "1 kg",
     },
 
     // Juices
@@ -122,7 +113,7 @@ const groceryData = {
       name: "Appy Fizz",
       price: 40,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/251009_14-appy-fizz-sparkling-apple-juice-drink.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjGsaK-VWWGXo-yipDd7iefgJlGcS29_huHw&s",
       unit: "250 ml",
     },
     {
@@ -131,7 +122,7 @@ const groceryData = {
       name: "Maaza Mango Drink",
       price: 75,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/1204481_3-maaza-mango-drink.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgQCHLOzGtou5Uchg9n3kyVShrH4iYW2-e8w&s",
       unit: "1.2 L",
     },
     {
@@ -143,16 +134,7 @@ const groceryData = {
         "https://www.bigbasket.com/media/uploads/p/l/40020129_8-tropicana-orange-juice.jpg",
       unit: "1 L",
     },
-    {
-      id: 304,
-      category: "juices",
-      name: "Real Fruit Power Cranberry",
-      price: 125,
-      image:
-        "https://www.bigbasket.com/media/uploads/p/l/40120228_6-real-fruit-power-juice-cranberry.jpg",
-      unit: "1 L",
-    },
-
+    
     // Dairy
     {
       id: 401,
@@ -160,7 +142,7 @@ const groceryData = {
       name: "Amul Gold Milk",
       price: 30,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/40045955_4-amul-homogenised-standardised-milk.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSaEAfP6cd5fnOfZCDv_DS-slfV1uShiPyIEw&s",
       unit: "500 ml",
     },
     {
@@ -169,7 +151,7 @@ const groceryData = {
       name: "Britannia Brown Bread",
       price: 50,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/40013206_12-britannia-100-whole-wheat-bread.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLgR_wmCMq8zT0gAWAvHH-vjy_008psEErmw&s",
       unit: "400 g",
     },
 
@@ -180,7 +162,7 @@ const groceryData = {
       name: "Harpic Powerplus Toilet Cleaner",
       price: 95,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/242521_21-harpic-powerplus-toilet-cleaner-original.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJnhFCQZnGQscfHcT-KiUccgc4mzQAA66x2g&s",
       unit: "500 ml",
     },
     {
@@ -189,7 +171,7 @@ const groceryData = {
       name: "Surf Excel Matic Liquid Detergent",
       price: 240,
       image:
-        "https://www.bigbasket.com/media/uploads/p/l/1203912_5-surf-excel-matic-top-load-liquid-detergent.jpg",
+        "https://m.media-amazon.com/images/I/51b7Ak1l9GL._UF1000,1000_QL80_.jpg",
       unit: "1 L",
     },
   ],
