@@ -2088,7 +2088,7 @@ function UserDashboard() {
                 strokeLinejoin="round"
               ></path>
             </svg>
-            <h1>NutriEats</h1>
+            <h1>TomatoVerse</h1>
           </div>
           <nav className="dashboard-nav">
             <a
