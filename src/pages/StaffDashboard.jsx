@@ -1025,7 +1025,6 @@ const StaffDashboard = () => {
           </div>
         );
 
-      default:
         return null;
     }
   };
