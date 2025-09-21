@@ -1,31 +1,39 @@
-# Food Delivery App Development Plan
+# Charity Functionality Implementation
 
-## Backend Development
+## Current Status: Completed ✅
 
-- [x] Create MongoDB models: User, Restaurant, MenuItem, Order, DeliveryAgent
-- [x] Implement authentication routes: register, login with JWT
-- [x] Create restaurant management routes: add/edit menus
-- [x] Implement order management routes: place order, update status
-- [x] Create delivery agent routes: accept delivery, update status
-- [x] Convert all files to ES modules for compatibility
+### Completed Steps:
 
-## Frontend Development
+- [x] Add charityAmount state variable
+- [x] Create charity input UI in CartSidebar
+- [x] Update CartSidebar calculations to use dynamic charity amount
+- [x] Update CheckoutPage to use dynamic charity amount
+- [x] Add validation for charity amount input
+- [x] Add CSS styling for the charity input section
 
-- [x] Set up React Router for navigation
-- [x] Create authentication pages: Login, Register
-- [x] Build restaurant browsing: list restaurants, view menus
-- [x] Implement cart functionality: add items, checkout
-- [x] Create order tracking: place order, real-time status updates
-- [x] Create AuthContext for state management
+### Next Steps:
 
-## Integration and Testing
+1. Test the complete flow
+2. Verify calculations are correct
+3. Ensure the amount persists when navigating between cart and checkout
 
-- [ ] Connect frontend to backend APIs
-- [ ] Implement dummy payment gateway
-- [ ] Test all modules end-to-end
+## Implementation Summary:
 
-## Bonus Features (if time permits)
+✅ **State Management**: Added `charityAmount` state variable with default value of 2
+✅ **CartSidebar Component**:
 
-- [ ] Personalized food recommendations
-- [ ] AR/3D preview of food items
-- [ ] Option to donate extra food to NGOs
+- Added charity input field with proper validation
+- Updated calculations to use dynamic charity amount
+- Added professional styling for the input section
+  ✅ **CheckoutPage Component**: Updated to accept and use dynamic charity amount
+  ✅ **Component Props**: Updated all component calls to pass charityAmount and setCharityAmount props
+  ✅ **CSS Styling**: Added comprehensive styles for the charity input section with focus states and proper UX
+
+## Features Implemented:
+
+- Users can now input their own charity amount
+- Input validation ensures only positive numbers are accepted
+- Real-time calculation updates as users type
+- Professional UI with proper styling and focus states
+- Amount persists across component re-renders
+- Works in both CartSidebar and CheckoutPage components

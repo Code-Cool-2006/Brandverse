@@ -1,0 +1,222 @@
+/* === Dashboard Container === */
+.dashboard-container {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f8f9fa, #eef2f3);
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar Brand */
+.lander-navbar-brand {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fadeDown 1s ease-in-out;
+}
+
+/* Main content layout */
+.main-content {
+  display: flex;
+  gap: 20px;
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Orders section */
+.orders-section {
+  flex: 3;
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  animation: slideInLeft 1s ease-in-out;
+}
+
+/* Order Cards */
+.order-card {
+  background: linear-gradient(135deg, #ffffff, #f0f8ff);
+  border-radius: 14px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 6px 15px rgba(0, 123, 255, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: popUp 0.8s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 123, 255, 0.35);
+}
+
+.order-card button {
+  margin-top: 10px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.order-card button:hover {
+  background: linear-gradient(90deg, #0056d2, #0086ff);
+  transform: scale(1.05);
+}
+
+/* Delivery Card */
+.delivery-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  animation: slideInUp 1s ease;
+}
+
+.delivery-card h2 {
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+.map-container {
+  margin-top: 15px;
+  border-radius: 12px;
+  overflow: hidden;
+  animation: fadeZoom 1.2s ease;
+}
+
+/* History Sidebar */
+.history-section {
+  flex: 1.2;
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  animation: slideInRight 1s ease-in-out;
+}
+
+.history-section h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+  padding-bottom: 8px;
+}
+
+.history-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-section li {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  animation: fadeInUp 0.6s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.history-section li:hover {
+  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.5s ease;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 14px;
+  padding: 25px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: scaleUp 0.4s ease;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.modal-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  margin: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  color: white;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.modal-actions button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(90deg, #0056d2, #0086ff);
+}
+
+/* === Animations === */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popUp {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeZoom {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}

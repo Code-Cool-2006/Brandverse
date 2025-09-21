@@ -685,6 +685,11 @@ function UserDashboard() {
 
     const payload = {
       contents: [{ parts: [{ text: userQuery }] }],
+                    '--delay': `${i * 0.2}s`,
+                    '--speed': `${arConfig.particleSpeed}s`,
+                  }}
+                ></div>
+              ))}
       tools: [{ google_search: {} }],
       systemInstruction: {
         parts: [{ text: systemPrompt }],

@@ -1,94 +1,96 @@
-/* From Uiverse.io by reglobby */
+/* Landing page scoped styles */
 
-a {
+.lander-user-profile {
+  display: block;
+  width: calc(100% - 2rem);
+  margin: 0 1rem 0.75rem;
+  padding: 0;
+  background: transparent;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
   text-decoration: none;
-  color: #007bff;
+  color: inherit;
+  transition: box-shadow 0.2s ease, transform 0.1s ease, border-color 0.2s ease;
 }
 
-button {
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
-  background-color: #007bff;
-  color: white;
-  font-size: 1rem;
+.lander-user-profile:hover {
+  border-color: #2563EB;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
+  transform: translateY(-1px);
 }
 
-button:hover {
-  background-color: #0056b3;
-  color: white;
-}
-
-.navbar-brand {
-  width: 100%;
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
-  box-shadow: rgba(0, 0, 0, 0.1);
-  color: white !important;
-  font-weight: 600;
-  padding: 10px 10px;
-  border-radius: 8px;
-  text-align: center;
-  font-size: 24px;
-  user-select: none;
-  text-decoration: none !important;
-  margin-bottom: 20px;
-  transition: background-color 0.3s ease;
-}
-.user-profile {
-  width: 170px;
-  height: 38px;
-  border-radius: 15px;
-  cursor: pointer;
-  transition: 0.3s ease;
-  background: linear-gradient(
-    to bottom right,
-    #2e8eff,
-    rgba(223, 143, 23, 0),
-    #2e8eff
-  );
-  background-color: rgba(46, 142, 255, 0.2);
+.lander-user-profile-inner {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.lander-user-profile-inner svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+.lander-user-profile-inner p {
+  margin: 0;
+  font-weight: 600;
+  color: #2563EB;
+}
+
+/* Home Page */
+.home-container {
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 12px;
-  font-size: 14px;
-  font-weight: 600;
-  color: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-  user-select: none;
-  gap: 8px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  padding: 1rem;
 }
 
-.user-profile:hover,
-.user-profile:focus {
-  background-color: rgba(46, 142, 255, 0.7);
-  box-shadow: 0 0 10px rgba(46, 142, 255, 0.5);
-  outline: none;
-}
-
-.user-profile-inner {
-  height: 100%;
-  border-radius: 13px;
-  background-color: #1a1a1a;
+header {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  color: #fff;
-  font-weight: 600;
-  padding: 0 10px;
-  width: 120%;
-  box-sizing: border-box;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
 }
 
-.user-profile-inner svg {
-  width: 35px;
-  height: 35px;
-  fill: #fff;
+nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.restaurant-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.restaurant-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+/* Login/Register */
+.login-container,
+.register-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.login-container h2,
+.register-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
 }

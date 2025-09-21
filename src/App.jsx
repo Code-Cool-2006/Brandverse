@@ -6,6 +6,8 @@ import Lander from "./Lander";
 import UserDashboard from "./pages/UserDashboard";
 import StaffDashboard from "./pages/StaffDashboard";
 import PartnerDashboard from "./pages/PartnerDashboard";
+import PaymentPage from "./pages/Payment";
+import Chatbot from "./pages/Chatbot";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/staff-dashboard" element={<StaffDashboard />} />
         <Route path="/partner-dashboard" element={<PartnerDashboard />} />
+        <Route path="/payment" element={<PaymentPage />} />
+        <Route path="/chatbot" element={<Chatbot />} />
       </Routes>
     </Router>
   );
