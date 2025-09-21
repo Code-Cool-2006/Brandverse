@@ -1,4 +1,3 @@
-Here's a polished and structured README based on your Hackathon Development Log:
 
 ---
 
@@ -78,12 +77,6 @@ This project was built during a two-day hackathon focused on creating a smart, h
 - Orders linked to restaurant profile.
 - Hidden from customer view.
 
-### 📱 AR/3D Food Previews
-- Select food items support **AR/3D model viewing**.
-- Customers can:
-  - Preview dishes in 3D
-  - Rotate and zoom for realistic visualization
-- Enhances digital-to-physical shopping experience.
 
 ---
 
@@ -93,8 +86,6 @@ Day 1 focused on building the core structure and essential features.
 Day 2 refined the UI, stabilized functionality, and introduced advanced modules like:
 - Real-time restaurant data sync
 - Grocery shopping for owners
-- AR-based food previews
 
 ---
 
-Let me know if you'd like this formatted for GitHub or turned into a project page!
