@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo, Suspense } from "react";
 import Chatbot from "./Chatbot";
 import PaymentPage from "./Payment";
-
+import ARModelsPage from "./ARModelsPage";
 // --- Expanded Dummy Data with Restaurants/Cafes ---
 const foodItems = [
   {
@@ -32,7 +32,7 @@ const foodItems = [
     restaurant: "Green Bites",
     price: "8.50",
     image:
-      "https://images.unsplash.com/photo-1536924430914-91f9e2041a83?q=80&w=2070&auto=format&fit-crop",
+      "https://www.onelovelylife.com/wp-content/uploads/2024/04/Greek-Quinoa11-3.jpg",
     category: "veg",
     type: "food",
     diabeticFriendly: true,
@@ -43,7 +43,7 @@ const foodItems = [
     restaurant: "Tokyo Grill",
     price: "12.00",
     image:
-      "https://images.unsplash.com/photo-1626202244999-52203e232931?q=80&w=1974&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3oDb5tGl5xDpuc1XTaHxk7lyNd42o8eoxIw&s",
     category: "non-veg",
     type: "food",
     diabeticFriendly: false,
@@ -54,7 +54,7 @@ const foodItems = [
     restaurant: "The Soup Spoon",
     price: "7.00",
     image:
-      "https://images.unsplash.com/photo-1608796319548-d62e1a31d9d4?q=80&w=1964&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkRpRfc7qP3sGjnhfzMQuwe_ggxqzXTmtZlA&s",
     category: "veg",
     type: "food",
     diabeticFriendly: true,
@@ -65,7 +65,7 @@ const foodItems = [
     restaurant: "The Steakhouse",
     price: "22.99",
     image:
-      "https://images.unsplash.com/photo-1629734190117-065d13b432a9?q=80&w=2070&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjcisjXq-vlVdiqdq-TJTVrD2P1SEicv-J3A&s",
     category: "non-veg",
     type: "food",
     diabeticFriendly: false,
@@ -87,7 +87,7 @@ const foodItems = [
     restaurant: "The Grand Feast",
     price: "25.00",
     image:
-      "https://images.unsplash.com/photo-1529692236671-ac337b7fd3d4?q=80&w=1964&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTEwKKvrIPdownGjBp_8bR6O3-r8zDLhkbf3g&s",
     category: "non-veg",
     type: "food",
     diabeticFriendly: false,
@@ -98,7 +98,7 @@ const foodItems = [
     restaurant: "Spice Route",
     price: "16.50",
     image:
-      "https://images.unsplash.com/photo-1582236371759-459207e37604?q=80&w=2070&auto-format&fit-crop",
+      "https://www.indianhealthyrecipes.com/wp-content/uploads/2023/04/butter-chicken-recipe.jpg",
     category: "non-veg",
     type: "food",
     diabeticFriendly: false,
@@ -109,7 +109,7 @@ const foodItems = [
     restaurant: "Spice Route",
     price: "14.00",
     image:
-      "https://images.unsplash.com/photo-1586511925553-9a3c9b7447d9?q=80&w=1974&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpPG2vJ8PHZXEAbxLVvImDUrUXhUF5Ewzn8A&s",
     category: "veg",
     type: "food",
     diabeticFriendly: true,
@@ -120,7 +120,7 @@ const foodItems = [
     restaurant: "Burger Junction",
     price: "11.50",
     image:
-      "https://images.unsplash.com/photo-1568901416973-10e0147f15c7?q=80&w=1974&auto-format&fit-crop",
+      "https://leitesculinaria.com/wp-content/uploads/2020/02/classic-cheeseburger-1200.jpg",
     category: "non-veg",
     type: "food",
     diabeticFriendly: false,
@@ -131,7 +131,7 @@ const foodItems = [
     restaurant: "Burger Junction",
     price: "9.50",
     image:
-      "https://images.unsplash.com/photo-1526685121696-a19c5c9a7d2e?q=80&w=1974&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrmGCwbICddnIVPPR8vL5P0gA9hmWUMt2smg&s",
     category: "veg",
     type: "food",
     diabeticFriendly: false,
@@ -143,7 +143,7 @@ const foodItems = [
     restaurant: "The Morning Brew",
     price: "6.50",
     image:
-      "https://images.unsplash.com/photo-1530990393275-c54d720b0c03?q=80&w=1974&auto=format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQSLs13OZQvUWILtpukfIPVoBeJiVd063hUlw&s",
     category: "veg",
     type: "food",
     diabeticFriendly: true,
@@ -154,7 +154,7 @@ const foodItems = [
     restaurant: "Green Bites",
     price: "11.00",
     image:
-      "https://images.unsplash.com/photo-1529692236671-ac337b7fd3d4?q=80&w=1964&auto-format&fit-crop",
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmlIFKHrv2hU_mW2Aqmia1P6nmPfaalqk1YA&s",
     category: "non-veg",
     type: "food",
     diabeticFriendly: true,
@@ -1004,7 +1004,9 @@ function UserDashboard() {
   const removeFromCart = (itemId) => {
     setCart((currentCart) => currentCart.filter((item) => item.id !== itemId));
   };
-
+const handleNavigateToAR = () => {
+  setCurrentPage("armodels");
+};
   return (
     <>
       <style>{`
@@ -1178,6 +1180,34 @@ function UserDashboard() {
           color: #333;
           font-size: 24px;
         }
+          /* Styling for the new header container */
+.recommendations-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Remove default margin from the h2 tag inside the new header */
+.recommendations-header h2 {
+  margin-bottom: 0;
+}
+
+/* Styling for your new button */
+.view-3d-btn {
+  background: linear-gradient(to right, #8e2de2, #4a00e0);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+}
+
+.view-3d-btn:hover {
+  opacity: 0.9;
+}
         .promo-card {
             background: linear-gradient(to right, #667eea, #764ba2);
             color: white;
@@ -2217,14 +2247,20 @@ function UserDashboard() {
                 activeFilter === "diabetic") && (
                 <>
                   <section className="recommendations">
-                    <h2>Recommended for You</h2>
-                    <div className="promo-card">
-                      <div className="promo-text">
-                        <h3>Today's top picks for you..</h3>
-                        <span>Specially made for you</span>
-                      </div>
-                    </div>
-                  </section>
+  {/* This is the new container for the heading and button */}
+  <div className="recommendations-header">
+  <h2>Recommended for You</h2>
+  <button className="view-3d-btn" onClick={handleNavigateToAR}> 
+    View AR models
+  </button>
+</div>
+  <div className="promo-card">
+    <div className="promo-text">
+      <h3>Today's top picks for you..</h3>
+      <span>Specially made for you</span>
+    </div>
+  </div>
+</section>
                   <section className="food-grid">
                     {filteredFoodItems.map((item) => (
                       <div className="food-card" key={item.id}>
@@ -2398,6 +2434,9 @@ function UserDashboard() {
         {currentPage === "payment" && (
           <PaymentPage onBack={handleBackToDashboard} />
         )}
+         {currentPage === "armodels" && (
+        <ARModelsPage onBack={handleBackToDashboard} />
+      )}
         <CartSidebar
           cart={cart}
           isOpen={isSidebarOpen}
